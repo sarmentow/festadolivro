@@ -12,6 +12,7 @@ import { compose, position } from 'styled-system'
 const HeaderWrapper = styled('div')(compose(position), {
   backgroundColor: 'white',
   display: 'flex',
+  flexWrap: 'wrap',
   position: 'sticky',
   height: '120px',
   boxShadow: `0px 0px 30px ${(p) => Color(p.theme.colors.gray[0]).alpha(0.15)}`,
