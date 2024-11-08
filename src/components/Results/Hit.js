@@ -1,23 +1,14 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import ReactJson from 'react-json-view'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import { jsonTheme } from 'theme'
 import { DocumentMedium } from 'components/icons'
 import Button from 'components/Button'
-import Box from 'components/Box'
 import Card from 'components/Card'
 import BaseLink from 'components/Link'
 import Typography from 'components/Typography'
 import Highlight from './Highlight'
-
-const EmptyImage = styled.div`
-  width: 100%;
-  height: 264px;
-  background-color: ${(p) => p.theme.colors.main.light};
-  border-radius: 10px;
-`
 
 const CustomCard = styled(Card)`
   display: flex;
@@ -195,12 +186,9 @@ const FieldValue = ({ hit, objectKey }) => {
   )
 }
 
-const Hit = ({ hit, imageKey }) => {
-  const [displayMore, setDisplayMore] = React.useState(false)
+const Hit = ({ hit }) => {
+  const displayMore = true
   const hasFields = !!hit._highlightResult
-  const documentProperties = hasFields
-    ? Object.entries(hit._highlightResult)
-    : []
 
   useEffect(() => {
     if (!hit._highlightResult) {
@@ -209,19 +197,20 @@ const Hit = ({ hit, imageKey }) => {
     }
   }, [])
 
+  const formattedColumnName = {
+    id: 'ID',
+    isbn: 'ISBN',
+    name: 'Título',
+    subject: 'Gênero',
+    price: 'Preço original',
+    price_discount: 'Preço com desconto',
+    link: 'Link',
+    authors: 'Autores',
+    publisher: 'Editora',
+  }
+
   return (
     <CustomCard>
-      <Box width={240} mr={4} flexShrink={0}>
-        {hit[imageKey] ? (
-          <LazyLoadImage
-            src={hit[imageKey] || null}
-            width="100%"
-            style={{ borderRadius: 10 }}
-          />
-        ) : (
-          <EmptyImage />
-        )}
-      </Box>
       <ContentContainer>
         {hasFields &&
           Object.keys(hit._highlightResult)
@@ -230,7 +219,7 @@ const Hit = ({ hit, imageKey }) => {
               <div key={key}>
                 <Grid>
                   <HitKey variant="typo10" color="gray.6">
-                    {key}
+                    {formattedColumnName[key]}
                   </HitKey>
                   <HitValue>
                     <FieldValue hit={hit} objectKey={key} />
@@ -239,23 +228,6 @@ const Hit = ({ hit, imageKey }) => {
                 <Hr />
               </div>
             ))}
-        {documentProperties.length > 6 && !displayMore && (
-          <Grid>
-            <HitKey variant="typo10" color="gray.6">
-              ...
-            </HitKey>
-            <div>
-              <Button
-                variant="link"
-                size="small"
-                toggable
-                onClick={() => setDisplayMore(true)}
-              >
-                Show more
-              </Button>
-            </div>
-          </Grid>
-        )}
       </ContentContainer>
     </CustomCard>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ApiKeyContext = React.createContext({
-  apiKey: '',
+  apiKey: 'festaDoLivroUSP2024',
   setApiKey: () => {},
 })
 

@@ -1,58 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import Box from 'components/Box'
-import Button from 'components/Button'
-import Card from 'components/Card'
 import Typography from 'components/Typography'
-import { LogoText, KeyBig, DocumentBig } from 'components/icons'
-
-const OnBoardingCard = ({ number, title, icon, href, ...props }) => (
-  <Card
-    as="section"
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: 248,
-      height: 224,
-    }}
-    {...props}
-  >
-    {icon}
-    <Box display="flex" flexDirection="row" alignItems="center" mb={20} mt={16}>
-      <Typography variant="typo12" color="main.default" mr={16}>
-        {number}
-      </Typography>
-      <Typography variant="typo4" color="gray.0">
-        {title}
-      </Typography>
-    </Box>
-    <Button
-      variant="bordered"
-      size="small"
-      as="a"
-      href={href}
-      target="_blank"
-      style={{ textDecoration: 'none' }}
-    >
-      Learn more
-    </Button>
-  </Card>
-)
-
-const CardsContainer = styled.div`
-  display: flex;
-  margin-top: 48px;
-  section + section {
-    margin-left: 72px;
-  }
-  svg {
-    color: ${(p) => p.theme.colors.gray[8]};
-    height: 36px;
-  }
-`
 
 const OnBoarding = () => (
   <Box
@@ -63,11 +12,7 @@ const OnBoarding = () => (
     height="100%"
   >
     <Typography variant="typo12" mb={42} color="gray.0">
-      Welcome to
-    </Typography>
-    <LogoText style={{ width: 260 }} />
-    <Typography variant="typo13" mt={12} color="main.default">
-      Mini Dashboard
+      Ache bons livros.
     </Typography>
     <Typography
       variant="typo8"
@@ -75,29 +20,19 @@ const OnBoarding = () => (
       style={{ maxWidth: 368, textAlign: 'center' }}
       mt={68}
     >
-      This dashboard will help you check the search results with ease.
+      Organizada anualmente pela Edusp desde 1999, a Festa do Livro da USP é um
+      evento já tradicional na Universidade de São Paulo que procura aproximar
+      editoras e leitores, oferecendo livros de qualidade a um preço especial.
     </Typography>
-    <CardsContainer>
-      <OnBoardingCard
-        number="1"
-        title="Set your API key (optional)"
-        href="https://meilisearch.com/docs/learn/security/master_api_keys"
-        icon={<KeyBig />}
-      />
-      <OnBoardingCard
-        number="2"
-        title="Select an index"
-        href="https://docs.meilisearch.com/learn/core_concepts/indexes.html"
-        icon={<DocumentBig />}
-      />
-      {/* TODO: Enable it once facet search is available */}
-      {/* <OnBoardingCard
-        number="3"
-        title="Use facets to filter your search"
-        href="https://docs.meilisearch.com/reference/api/attributes_for_faceting.html"
-        icon={<SettingsBig />}
-      /> */}
-    </CardsContainer>
+    <Typography
+      variant="typo8"
+      color="gray.0"
+      style={{ maxWidth: 368, textAlign: 'center' }}
+      mt={20}
+    >
+      Essa aplicação busca ser uma maneira de achar livros bacanas da maneira
+      mais natural possível.
+    </Typography>
   </Box>
 )
 

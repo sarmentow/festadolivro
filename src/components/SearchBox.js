@@ -27,7 +27,7 @@ const SearchBox = connectSearchBox(
         value={value}
         onChange={(e) => setValue(e.target.value)}
         clear={() => setValue('')}
-        placeholder="Search something"
+        placeholder="Pesquisar Livros, Autores, Editoras, ISBN, ..."
         icon={<SearchIcon />}
         style={{ width: 520 }}
       />

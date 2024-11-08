@@ -1,7 +1,7 @@
 const theme = {
   colors: {
     main: {
-      default: '#E41359',
+      default: '#4693FE',
       hover: '#CA1B53',
       dark: '#73313D',
       light: '#FFDBE7',
@@ -38,7 +38,6 @@ const theme = {
     large: '1440',
   },
 }
-
 export const jsonTheme = {
   base00: 'white',
   base01: '#ddd',

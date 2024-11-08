@@ -1,22 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Color from 'color'
-import { DialogDisclosure, useDialogState } from 'reakit/Dialog'
-
-import { useMeilisearchClientContext } from 'context/MeilisearchClientContext'
-import ApiKeyModalContent from 'components/ApiKeyModalContent'
-import Button from 'components/Button'
-import Link from 'components/Link'
-import Modal from 'components/Modal'
 import NoSelectOption from 'components/NoSelectOption'
-import Typography from 'components/Typography'
 import SearchBox from 'components/SearchBox'
 import Box from 'components/Box'
 import Container from 'components/Container'
 import Select from 'components/Select'
-import { MeilisearchLogo, Indexes, Key } from 'components/icons'
+import { Indexes } from 'components/icons'
 import { compose, position } from 'styled-system'
-import HelpCenter from './HelpCenter'
 
 const HeaderWrapper = styled('div')(compose(position), {
   backgroundColor: 'white',
@@ -27,120 +18,43 @@ const HeaderWrapper = styled('div')(compose(position), {
   zIndex: 3,
 })
 
-const ApiKey = ({ requireApiKeyToWork }) => {
-  const dialog = useDialogState()
-  return (
-    <>
-      <DialogDisclosure {...dialog}>
-        {(props) => (
-          <Button
-            icon={<Key style={{ height: 19 }} />}
-            style={{ width: '100%' }}
-            {...props}
-          >
-            Api Key
-          </Button>
-        )}
-      </DialogDisclosure>
-      <Modal
-        title={`Enter your admin API key${
-          requireApiKeyToWork ? '' : ' (optional)'
-        }`}
-        dialog={dialog}
-        ariaLabel="settings-api-key"
-      >
-        {requireApiKeyToWork ? (
-          <ApiKeyModalContent closeModal={() => dialog.hide()} />
-        ) : (
-          <Typography variant="typo11" color="gray.6">
-            You haven’t set an API key yet, if you want to set one you can read
-            the{' '}
-            <Link href="https://docs.meilisearch.com/reference/api/keys.html">
-              documentation
-            </Link>
-          </Typography>
-        )}
-      </Modal>
-    </>
-  )
-}
-
 const Header = ({
   indexes,
   currentIndex,
   setCurrentIndex,
   refreshIndexes,
-  requireApiKeyToWork,
   isBannerVisible,
-}) => {
-  const { meilisearchJsClient } = useMeilisearchClientContext()
-  const [version, setVersion] = React.useState()
-
-  React.useEffect(() => {
-    const getMeilisearchVersion = async () => {
-      try {
-        const res = await meilisearchJsClient.getVersion()
-        setVersion(res.pkgVersion)
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err)
-      }
-    }
-    getMeilisearchVersion()
-  }, [meilisearchJsClient])
-
-  return (
-    <HeaderWrapper top={isBannerVisible ? 55 : 0}>
-      <Container
-        p={4}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        height="100%"
-      >
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {/* Trick to make the logo look centered */}
-          <MeilisearchLogo
-            title="Meilisearch"
-            style={{
-              width: 75,
-              paddingTop: 11,
-              paddingBottom: 11,
-              marginLeft: 13,
-            }}
-          />
-          {version && (
-            <Typography
-              variant="typo10"
-              color="gray.0"
-            >{`v${version}`}</Typography>
-          )}
-        </Box>
-        <Box display="flex">
-          <SearchBox
-            refreshIndexes={refreshIndexes}
-            currentIndex={currentIndex}
-          />
-          <Select
-            options={indexes}
-            icon={<Indexes style={{ height: 22 }} />}
-            currentOption={currentIndex}
-            onChange={setCurrentIndex}
-            noOptionComponent={<NoSelectOption />}
-            style={{ width: 216 }}
-            onClick={refreshIndexes}
-          />
-          <ApiKey requireApiKeyToWork={requireApiKeyToWork} />
-        </Box>
-        <HelpCenter />
-      </Container>
-    </HeaderWrapper>
-  )
-}
+}) => (
+  <HeaderWrapper top={isBannerVisible ? 55 : 0}>
+    <img
+      loading="lazy"
+      src="https://festadolivro.edusp.com.br/storage/events/event-1/event-banner-gallery-desktop/15b14334a3298203fa318a765bea6f8cf5e33f59_banner-gif-26-festalivro-usp-desktop.gif"
+      alt="Banner 26 festa do livro"
+    />
+    <Container
+      p={4}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      height="100%"
+    >
+      <Box display="flex">
+        <SearchBox
+          refreshIndexes={refreshIndexes}
+          currentIndex={currentIndex}
+        />
+        <Select
+          options={indexes}
+          icon={<Indexes style={{ height: 22 }} />}
+          currentOption={currentIndex}
+          onChange={setCurrentIndex}
+          noOptionComponent={<NoSelectOption />}
+          style={{ width: 216 }}
+          onClick={refreshIndexes}
+        />
+      </Box>
+    </Container>
+  </HeaderWrapper>
+)
 
 export default Header
