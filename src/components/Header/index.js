@@ -12,6 +12,7 @@ import { compose, position } from 'styled-system'
 const HeaderWrapper = styled('div')(compose(position), {
   backgroundColor: 'white',
   display: 'flex',
+  flexWrap: 'wrap',
   position: 'sticky',
   height: '120px',
   boxShadow: `0px 0px 30px ${(p) => Color(p.theme.colors.gray[0]).alpha(0.15)}`,
@@ -26,22 +27,30 @@ const Header = ({
   isBannerVisible,
 }) => (
   <HeaderWrapper top={isBannerVisible ? 55 : 0}>
-    <img
-      loading="lazy"
-      src="https://festadolivro.edusp.com.br/storage/events/event-1/event-banner-gallery-desktop/15b14334a3298203fa318a765bea6f8cf5e33f59_banner-gif-26-festalivro-usp-desktop.gif"
-      alt="Banner 26 festa do livro"
-    />
     <Container
       p={4}
       display="flex"
       alignItems="center"
       justifyContent="center"
       height="100%"
+      flexWrap="wrap"
     >
-      <Box display="flex">
+      <img
+        loading="lazy"
+        style={{
+          maxHeight: '200px',
+          marginBottom: '10px',
+          width: '100%',
+          objectFit: 'contain',
+        }}
+        src="https://festadolivro.edusp.com.br/storage/events/event-1/event-banner-gallery-desktop/15b14334a3298203fa318a765bea6f8cf5e33f59_banner-gif-26-festalivro-usp-desktop.gif"
+        alt="Banner 26 festa do livro"
+      />
+      <Box display="flex" style={{ width: '100%' }}>
         <SearchBox
           refreshIndexes={refreshIndexes}
           currentIndex={currentIndex}
+          style={{ flex: '1' }}
         />
         <Select
           options={indexes}

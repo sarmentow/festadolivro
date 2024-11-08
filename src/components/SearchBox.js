@@ -29,7 +29,7 @@ const SearchBox = connectSearchBox(
         clear={() => setValue('')}
         placeholder="Pesquisar Livros, Autores, Editoras, ISBN, ..."
         icon={<SearchIcon />}
-        style={{ width: 520 }}
+        style={{ width: '100%' }}
       />
     )
   }
