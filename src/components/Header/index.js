@@ -1,12 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import Color from 'color'
-import NoSelectOption from 'components/NoSelectOption'
 import SearchBox from 'components/SearchBox'
 import Box from 'components/Box'
 import Container from 'components/Container'
-import Select from 'components/Select'
-import { Indexes } from 'components/icons'
 import { compose, position } from 'styled-system'
 
 const HeaderWrapper = styled('div')(compose(position), {
@@ -19,13 +16,7 @@ const HeaderWrapper = styled('div')(compose(position), {
   zIndex: 3,
 })
 
-const Header = ({
-  indexes,
-  currentIndex,
-  setCurrentIndex,
-  refreshIndexes,
-  isBannerVisible,
-}) => (
+const Header = ({ currentIndex, refreshIndexes, isBannerVisible }) => (
   <HeaderWrapper top={isBannerVisible ? 55 : 0}>
     <Container
       p={4}
@@ -51,15 +42,6 @@ const Header = ({
           refreshIndexes={refreshIndexes}
           currentIndex={currentIndex}
           style={{ flex: '1' }}
-        />
-        <Select
-          options={indexes}
-          icon={<Indexes style={{ height: 22 }} />}
-          currentOption={currentIndex}
-          onChange={setCurrentIndex}
-          noOptionComponent={<NoSelectOption />}
-          style={{ width: 216 }}
-          onClick={refreshIndexes}
         />
       </Box>
     </Container>

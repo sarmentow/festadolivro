@@ -23,7 +23,6 @@ const SelectIndexesButton = styled(MenuButton)`
   background-color: white;
   display: flex;
   align-items: center;
-  min-width: 260px;
   border-color: ${(p) => p.theme.colors.gray[10]};
   border-width: 1px;
   border-style: solid;
@@ -59,7 +58,6 @@ const SelectIndexesButton = styled(MenuButton)`
 `
 
 const IndexesListContainer = styled(Menu)`
-  min-width: 218px;
   display: flex;
   flex-direction: column;
   outline: none;

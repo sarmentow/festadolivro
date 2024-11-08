@@ -58,6 +58,7 @@ const Body = ({
           width={928}
           m="0 auto"
           py={4}
+          pt={100}
           display="flex"
           flexDirection="column"
         >

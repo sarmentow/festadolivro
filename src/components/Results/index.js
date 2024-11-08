@@ -37,9 +37,6 @@ const Results = connectStateResults(({ searchResults }) => {
         alignItems="center"
         mb={56}
       >
-        <div>
-          <ConnectedStats nbResults={searchResults?.hits.length} />
-        </div>
         {/* <Toggle
           onLabel={<Label1 />}
           offLabel={<Label2 />}
