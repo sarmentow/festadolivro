@@ -7,13 +7,13 @@ import Container from 'components/Container'
 import { compose, position } from 'styled-system'
 
 const HeaderWrapper = styled('div')(compose(position), {
-  backgroundColor: 'white',
   display: 'flex',
   flexWrap: 'wrap',
   position: 'sticky',
-  height: '120px',
   boxShadow: `0px 0px 30px ${(p) => Color(p.theme.colors.gray[0]).alpha(0.15)}`,
   zIndex: 3,
+  backdropFilter: 'blur(2px)',
+  backgroundColor: 'rgba(255, 255, 255, 0.5)', // adjust the color and opacity to your liking
 })
 
 const Header = ({ currentIndex, refreshIndexes, isBannerVisible }) => (
@@ -29,7 +29,7 @@ const Header = ({ currentIndex, refreshIndexes, isBannerVisible }) => (
       <img
         loading="lazy"
         style={{
-          maxHeight: '200px',
+          maxWidth: '900px',
           marginBottom: '10px',
           width: '100%',
           objectFit: 'contain',

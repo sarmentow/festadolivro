@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import ReactJson from 'react-json-view'
+import { FiPlusCircle } from 'react-icons/fi'
+import { CartContext } from 'context/CartContext'
 
-import { jsonTheme } from 'theme'
+import theme, { jsonTheme } from 'theme'
 import { DocumentMedium } from 'components/icons'
 import Button from 'components/Button'
 import Card from 'components/Card'
@@ -12,6 +14,21 @@ import Highlight from './Highlight'
 
 const CustomCard = styled(Card)`
   display: flex;
+`
+
+const AddButton = styled.button`
+  font-size: 16px;
+  border: 1px solid ${theme.colors.gray[5]}
+  background: none;
+  padding: 10px;
+  color: ${theme.colors.gray[2]};
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: none;
+  &:active {
+    background: ${theme.colors.gray[8]};
+  }
+  border-radius: 50px;
 `
 
 const Grid = styled.div`
@@ -209,9 +226,23 @@ const Hit = ({ hit }) => {
     publisher: 'Editora',
   }
 
+  const { addItemToCart } = useContext(CartContext)
+
+  const handleAddToCart = (item) => {
+    addItemToCart(item)
+  }
+
   return (
     <CustomCard>
       <ContentContainer>
+        <AddButton
+          type="button"
+          onClick={() => {
+            handleAddToCart(hit)
+          }}
+        >
+          <FiPlusCircle /> Adicionar à lista
+        </AddButton>
         {hasFields &&
           Object.keys(hit._highlightResult)
             .slice(0, displayMore ? Object.keys(hit).length : 6)

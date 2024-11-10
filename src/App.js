@@ -8,6 +8,7 @@ import { MeiliSearch as Meilisearch } from 'meilisearch'
 
 import ApiKeyContext from 'context/ApiKeyContext'
 import { useMeilisearchClientContext } from 'context/MeilisearchClientContext'
+import { CartProvider } from 'context/CartContext'
 import useLocalStorage from 'hooks/useLocalStorage'
 import ApiKeyModalContent from 'components/ApiKeyModalContent'
 import Body from 'components/Body'
@@ -116,37 +117,39 @@ const App = () => {
   }, [meilisearchJsClient])
 
   return (
-    <ApiKeyContext.Provider value={{ apiKey, setApiKey }}>
-      <Wrapper>
-        {isApiKeyBannerVisible && (
-          <ApiKeyAwarenessBanner
-            onClose={() => setIsApiKeyBannerVisible(false)}
-          />
-        )}
-        {showCloudBanner && <CloudBanner />}
-        {isMeilisearchRunning ? (
-          <Body
-            currentIndex={currentIndex}
-            indexes={indexes}
-            setCurrentIndex={setCurrentIndex}
-            requireApiKeyToWork={requireApiKeyToWork}
-            getIndexesList={getIndexesList}
-            isApiKeyBannerVisible={isApiKeyBannerVisible}
-          />
-        ) : (
-          <NoMeilisearchRunning />
-        )}
-        <Modal
-          title={`Enter your admin API key${
-            requireApiKeyToWork ? '' : ' (optional)'
-          }`}
-          dialog={dialog}
-          ariaLabel="ask-for-api-key"
-        >
-          <ApiKeyModalContent closeModal={() => dialog.hide()} />
-        </Modal>
-      </Wrapper>
-    </ApiKeyContext.Provider>
+    <CartProvider>
+      <ApiKeyContext.Provider value={{ apiKey, setApiKey }}>
+        <Wrapper>
+          {isApiKeyBannerVisible && (
+            <ApiKeyAwarenessBanner
+              onClose={() => setIsApiKeyBannerVisible(false)}
+            />
+          )}
+          {showCloudBanner && <CloudBanner />}
+          {isMeilisearchRunning ? (
+            <Body
+              currentIndex={currentIndex}
+              indexes={indexes}
+              setCurrentIndex={setCurrentIndex}
+              requireApiKeyToWork={requireApiKeyToWork}
+              getIndexesList={getIndexesList}
+              isApiKeyBannerVisible={isApiKeyBannerVisible}
+            />
+          ) : (
+            <NoMeilisearchRunning />
+          )}
+          <Modal
+            title={`Enter your admin API key${
+              requireApiKeyToWork ? '' : ' (optional)'
+            }`}
+            dialog={dialog}
+            ariaLabel="ask-for-api-key"
+          >
+            <ApiKeyModalContent closeModal={() => dialog.hide()} />
+          </Modal>
+        </Wrapper>
+      </ApiKeyContext.Provider>
+    </CartProvider>
   )
 }
 
