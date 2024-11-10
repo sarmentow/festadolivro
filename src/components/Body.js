@@ -173,7 +173,7 @@ const Body = ({
                       <b style={{ color: theme.colors.main.default }}>
                         ({item.publisher})
                       </b>{' '}
-                      {item.name} by {item.authors}
+                      {item.name} de {item.authors}
                     </td>
                     <td style={{ padding: theme.space[2] }}>
                       {item.price_discount}
