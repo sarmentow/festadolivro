@@ -31,12 +31,7 @@ const Results = connectStateResults(({ searchResults }) => {
 
   return (
     <>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={56}
-      >
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         {/* <Toggle
           onLabel={<Label1 />}
           offLabel={<Label2 />}

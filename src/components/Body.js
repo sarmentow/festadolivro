@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { InstantSearch } from 'react-instantsearch-dom'
+import { FiEye, FiTrash, FiClipboard, FiXCircle } from 'react-icons/fi'
 
 import { useMeilisearchClientContext } from 'context/MeilisearchClientContext'
 import Box from 'components/Box'
@@ -9,6 +10,23 @@ import EmptyView from 'components/EmptyView'
 import OnBoarding from 'components/OnBoarding'
 import Results from 'components/Results'
 import Typography from 'components/Typography'
+import { CartContext } from 'context/CartContext'
+import theme from 'theme'
+import styled from 'styled-components'
+
+const Button = styled.button`
+  font-size: 16px;
+  border: 1px solid ${theme.colors.gray[5]}
+  background: none;
+  padding: 10px;
+  color: ${theme.colors.gray[2]};
+  margin-right: 10px;
+  border: none;
+  &:active {
+    background: ${theme.colors.gray[8]};
+  }
+  border-radius: 50px;
+`
 
 const IndexContent = ({ currentIndex }) => {
   if (!currentIndex) return <OnBoarding />
@@ -38,6 +56,43 @@ const Body = ({
   const { meilisearchJsClient, instantMeilisearchClient } =
     useMeilisearchClientContext()
 
+  const { cartItems, removeItemFromCart, clearCart } = useContext(CartContext)
+  const parseCurrency = (value) => {
+    // Remove any non-numeric characters except for the comma (which is used as a decimal separator in some locales)
+    const cleanedValue = value.replace(/[^0-9,]/g, '')
+
+    // Replace the comma with a dot (which is the standard decimal separator in JavaScript)
+    const decimalValue = cleanedValue.replace(',', '.')
+
+    // Parse the string into a float
+    return parseFloat(decimalValue)
+  }
+  const [cartVisible, setCartVisible] = useState(false)
+  const calculateTotalPrice = () => {
+    let acc = 0
+    cartItems.forEach((item) => {
+      acc += parseCurrency(item.price_discount)
+    })
+    return acc
+  }
+
+  const handleCopyToClipboard = () => {
+    const cartItemsMarkdown = cartItems
+      .sort((a, b) => a.publisher.localeCompare(b.publisher))
+      .map(
+        (item) =>
+          `- (${item.publisher}) ${item.name} by ${item.authors} - ${item.price_discount}`
+      )
+      .join('\n')
+
+    navigator.clipboard
+      .writeText(cartItemsMarkdown)
+      .then(() => {})
+      .catch((error) => {
+        console.error('Failed to copy shopping list to clipboard:', error)
+      })
+  }
+
   return (
     <InstantSearch
       indexName={currentIndex ? currentIndex.uid : ''}
@@ -52,13 +107,120 @@ const Body = ({
         refreshIndexes={getIndexesList}
         isBannerVisible={isApiKeyBannerVisible}
       />
-      <BodyWrapper>
-        {/* <Sidebar /> */}
+      <Box
+        width={928}
+        m="0 auto"
+        py={4}
+        display="flex"
+        flexDirection="row"
+        mb={4}
+      >
+        <Button
+          type="button"
+          onClick={() => {
+            setCartVisible(!cartVisible)
+          }}
+        >
+          <FiEye /> Lista de leitura
+        </Button>
+        <Button type="button" onClick={clearCart}>
+          <FiTrash /> Limpar lista
+        </Button>
+        <Button type="button" onClick={handleCopyToClipboard}>
+          <FiClipboard /> Copiar lista como texto
+        </Button>
+      </Box>
+      {cartVisible && (
         <Box
           width={928}
           m="0 auto"
           py={4}
-          pt={100}
+          display="flex"
+          flexDirection="column"
+          mb={4}
+        >
+          <table
+            style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              marginTop: theme.space[3],
+            }}
+          >
+            <thead>
+              <tr
+                style={{
+                  backgroundColor: theme.colors.gray[10],
+                  borderBottom: `1px solid ${theme.colors.gray[5]}`,
+                }}
+              >
+                <th style={{ padding: theme.space[2], textAlign: 'left' }}>
+                  Livro
+                </th>
+                <th style={{ padding: theme.space[2], textAlign: 'left' }}>
+                  Preço com desconto
+                </th>
+                <th style={{ padding: theme.space[2], textAlign: 'center' }}>
+                  Ações
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...cartItems]
+                .sort((a, b) => a.publisher.localeCompare(b.publisher))
+                .map((item) => (
+                  <tr
+                    key={item.id}
+                    style={{
+                      borderBottom: `1px solid ${theme.colors.gray[5]}`,
+                    }}
+                  >
+                    <td style={{ padding: theme.space[2] }}>
+                      <b style={{ color: theme.colors.main.default }}>
+                        ({item.publisher})
+                      </b>{' '}
+                      {item.name} by {item.authors}
+                    </td>
+                    <td style={{ padding: theme.space[2] }}>
+                      {item.price_discount}
+                    </td>
+                    <td
+                      style={{ padding: theme.space[2], textAlign: 'center' }}
+                    >
+                      <Button
+                        type="button"
+                        onClick={() => removeItemFromCart(item)}
+                      >
+                        <FiXCircle />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          <h2
+            style={{
+              textAlign: 'right',
+              marginTop: theme.space[3],
+            }}
+          >
+            Total: R${calculateTotalPrice()}
+          </h2>
+          <h2
+            style={{
+              textAlign: 'right',
+              marginTop: theme.space[3],
+            }}
+          >
+            {' '}
+            Livros: {cartItems.length}
+          </h2>
+        </Box>
+      )}
+      <BodyWrapper>
+        <Box
+          width={928}
+          m="0 auto"
+          py={4}
           display="flex"
           flexDirection="column"
         >
