@@ -108,6 +108,7 @@ const Body = ({
         py={4}
         display="flex"
         flexDirection="row"
+        fleWrap="wrap"
         mb={4}
       >
         <Button
