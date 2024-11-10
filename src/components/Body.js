@@ -26,6 +26,9 @@ const Button = styled.button`
     background: ${theme.colors.gray[8]};
   }
   border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 `
 
 const IndexContent = ({ currentIndex }) => {
@@ -103,7 +106,6 @@ const Body = ({
         isBannerVisible={isApiKeyBannerVisible}
       />
       <Box
-        width={928}
         m="0 auto"
         py={4}
         display="flex"
@@ -117,24 +119,17 @@ const Body = ({
             setCartVisible(!cartVisible)
           }}
         >
-          <FiEye /> Lista de leitura
+          <FiEye /> <span>Lista de leitura</span>
         </Button>
         <Button type="button" onClick={clearCart}>
-          <FiTrash /> Limpar lista
+          <FiTrash /> <span>Limpar lista</span>
         </Button>
         <Button type="button" onClick={handleCopyToClipboard}>
-          <FiClipboard /> Copiar lista como texto
+          <FiClipboard /> <span>Copiar lista como texto</span>
         </Button>
       </Box>
       {cartVisible && (
-        <Box
-          width={928}
-          m="0 auto"
-          py={4}
-          display="flex"
-          flexDirection="column"
-          mb={4}
-        >
+        <Box m="0 auto" py={4} display="flex" flexDirection="column" mb={4}>
           <table
             style={{
               width: '100%',
@@ -149,13 +144,31 @@ const Body = ({
                   borderBottom: `1px solid ${theme.colors.gray[5]}`,
                 }}
               >
-                <th style={{ padding: theme.space[2], textAlign: 'left' }}>
+                <th
+                  style={{
+                    padding: theme.space[2],
+                    color: theme.colors.gray[4],
+                    textAlign: 'left',
+                  }}
+                >
                   Livro
                 </th>
-                <th style={{ padding: theme.space[2], textAlign: 'left' }}>
+                <th
+                  style={{
+                    padding: theme.space[2],
+                    color: theme.colors.gray[4],
+                    textAlign: 'left',
+                  }}
+                >
                   Preço com desconto
                 </th>
-                <th style={{ padding: theme.space[2], textAlign: 'center' }}>
+                <th
+                  style={{
+                    padding: theme.space[2],
+                    color: theme.colors.gray[4],
+                    textAlign: 'center',
+                  }}
+                >
                   Ações
                 </th>
               </tr>
@@ -170,7 +183,12 @@ const Body = ({
                       borderBottom: `1px solid ${theme.colors.gray[5]}`,
                     }}
                   >
-                    <td style={{ padding: theme.space[2] }}>
+                    <td
+                      style={{
+                        padding: theme.space[2],
+                        color: theme.colors.gray[3],
+                      }}
+                    >
                       <b style={{ color: theme.colors.main.default }}>
                         ({item.publisher})
                       </b>{' '}
